@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mzc.study.blog_be.domain.user.UserEntity;
@@ -34,10 +35,25 @@ public class PostEntity {
     @Column( name="created_at" )
     private LocalDateTime createdAt;
 
+    @Builder
+    public PostEntity( String title, String content, UserEntity writer ){
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public void update( String title, String content ){
+        this.title = title;
+        this.content = content;
+    }
+
     // 연관 관계 필드
     @OneToMany( fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="post" )
     private List<AttatchmentEntity> attatchments;
 
     // 연관 관계 메서드
-
+    public void addAttatchment( AttatchmentEntity attatchment ){
+        this.attatchments.add( attatchment );
+    }
 }

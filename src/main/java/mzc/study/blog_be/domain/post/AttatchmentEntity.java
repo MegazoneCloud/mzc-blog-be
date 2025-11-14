@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,5 +30,12 @@ public class AttatchmentEntity {
     @ManyToOne( fetch=FetchType.LAZY )
     @JoinColumn( name="post_id" )
     private PostEntity post;
+
+    @Builder
+    public AttatchmentEntity( String filePath, String fileName, PostEntity post ){
+        this.filePath = filePath;
+        this.fileName = fileName;
+        this.post = post;
+    }
 
 }
