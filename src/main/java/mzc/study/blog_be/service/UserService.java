@@ -2,6 +2,7 @@ package mzc.study.blog_be.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -14,6 +15,7 @@ import mzc.study.blog_be.util.exception.ServerException;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final PasswordEncoder passowrdEncoder;
 
     @Transactional
     public void create( String email, String password, String name, String nickname ){
@@ -24,10 +26,12 @@ public class UserService {
         if( name.isEmpty() ) throw new ServerException( "이름은 필수입니다" );
 
         // check duplication
+        if( !repository.findByEmail( email ).isEmpty() ) throw new ServerException( "이미 가입된 이메일입니다" );
+        if( !repository.findByNickname( nickname ).isEmpty() ) throw new ServerException( "이미 존재하는 닉네임입니다." );
 
         UserEntity user = UserEntity.builder()
                             .email( email )
-                            .password( password )
+                            .password( passowrdEncoder.encode(password) )
                             .name( name )
                             .nickname( nickname )
                             .build();
