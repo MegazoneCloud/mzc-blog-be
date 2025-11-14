@@ -7,3 +7,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+jwt:
+  secret: jwt-secret-key-longer-than-32-characters-mzc-study-blog-be
+  expiration: 86400000

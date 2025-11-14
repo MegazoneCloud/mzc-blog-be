@@ -22,7 +22,7 @@ public class AttatchmentService {
                                             .fileName(fileName)
                                             .post(post)
                                             .build();
-        post.addAttatchment( this );
+        post.addAttatchment( attatchment );
         return repository.save( attatchment );
     }
 }
